@@ -9,11 +9,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.githubuserlist.data.model.user.GithubUserDetailResponse
+import com.example.githubuserlist.ui.components.LoadingMV
 import com.example.githubuserlist.ui.components.TopBarMV
 
 @Composable
 fun UserDetailScreen(
-    viewModel: UserDetailViewModel = hiltViewModel()
+    viewModel: UserDetailViewModel = hiltViewModel(),
 ) {
     val userDetail by viewModel.userDetail.collectAsStateWithLifecycle()
 
@@ -22,7 +23,9 @@ fun UserDetailScreen(
             TopBarMV(title = "Github Users")
         }
     ) { pad ->
-        if (userDetail.isSuccess()) {
+        if (userDetail.isLoading()) {
+            LoadingMV()
+        } else if (userDetail.isSuccess()) {
             UserDetailContent(modifier = Modifier.padding(pad), null)
         }
     }
@@ -32,7 +35,7 @@ fun UserDetailScreen(
 @Composable
 private fun UserDetailContent(
     modifier: Modifier = Modifier,
-    userDetail: GithubUserDetailResponse?
+    userDetail: GithubUserDetailResponse?,
 ) {
 
 }
