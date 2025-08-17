@@ -1,9 +1,9 @@
-package com.example.githubuserlist.ui.screens
+package com.example.githubuserlist.ui.screens.user_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubuserlist.data.model.DataState
-import com.example.githubuserlist.data.model.user.GithubUsersResponse
+import com.example.githubuserlist.data.model.user.GithubUserDetailResponse
 import com.example.githubuserlist.domain.repository.GithubUserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,28 +14,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class UserDetailViewModel @Inject constructor(
     private val repository: GithubUserRepository
 ) : ViewModel() {
 
-    private val _userData = MutableStateFlow<DataState<List<GithubUsersResponse>>>(DataState.Idle)
-    val userData = _userData.asStateFlow()
+    private val _userDetail = MutableStateFlow<DataState<GithubUserDetailResponse>>(DataState.Idle)
+    val userDetail = _userDetail.asStateFlow()
 
     init {
-        getUserData()
+        getUserDetailData(1)
     }
 
-    internal fun getUserData() {
+    internal fun getUserDetailData(id: Int) {
         viewModelScope.launch {
-            repository.getGithubUsers()
+            repository.getGithubUser(id)
                 .onStart {
-                    _userData.update { DataState.Loading }
+                    _userDetail.update { DataState.Loading }
                 }
                 .collect { result ->
                     result.onSuccess { successResult ->
-                        _userData.update {
-                            DataState.Success(successResult)
-                        }
+                        _userDetail.update { DataState.Success(successResult) }
                     }.onFailure { errorResult ->
                         DataState.Error(errorResult.message.orEmpty())
                     }

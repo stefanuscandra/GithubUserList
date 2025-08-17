@@ -76,6 +76,7 @@ dependencies {
     api(libs.compose.navigation)
     api(libs.compose.preview)
     api(libs.compose.tooling)
+    api(libs.compose.lottie)
 
     // network
     implementation(libs.okhttp3.logging.interceptor)
