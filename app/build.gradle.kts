@@ -7,16 +7,19 @@ plugins {
 
 android {
     namespace = "com.example.githubuserlist"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.githubuserlist"
+        applicationId = "com.template.apptemplate"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -29,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         compose = true
@@ -47,7 +50,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
@@ -62,6 +64,7 @@ dependencies {
 
     // compose
     api(platform(libs.androidx.compose.bom))
+    api(libs.compose.activity)
     api(libs.compose.coil)
     api(libs.compose.hilt.navigation)
     api(libs.compose.lifecycle.viewmodel)
@@ -84,4 +87,10 @@ dependencies {
     implementation(libs.hilt)
     testImplementation(libs.hilt.testing)
     ksp(libs.hilt.compiler)
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("com.squareup:javapoet:1.13.0")
+    }
 }
