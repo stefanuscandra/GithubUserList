@@ -3,6 +3,7 @@ package com.example.githubuserlist.ui.screens.home
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,14 +34,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.githubuserlist.R
 import com.example.githubuserlist.data.model.user.GithubUsersResponse
+import com.example.githubuserlist.ui.NavigationItem
 import com.example.githubuserlist.ui.components.LoadingMV
 import com.example.githubuserlist.ui.components.TopBarMV
 import com.example.githubuserlist.ui.theme.Primary
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
-
+fun HomeScreen(
+    navController: NavController? = null,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
     val userData by viewModel.userData.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -52,7 +58,10 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
         } else if (userData.isSuccess()) {
             HomeContent(
                 modifier = Modifier.padding(pad),
-                userData = userData.getStateData().orEmpty()
+                userData = userData.getStateData().orEmpty(),
+                onClickUser = { id ->
+                    navController?.navigate(NavigationItem.Detail.withArgs(id.toString()))
+                }
             )
         }
     }
@@ -61,7 +70,8 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
 @Composable
 private fun HomeContent(
     modifier: Modifier = Modifier,
-    userData: List<GithubUsersResponse> = emptyList()
+    userData: List<GithubUsersResponse> = emptyList(),
+    onClickUser: (id: Int) -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier
@@ -71,13 +81,16 @@ private fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(userData) { data ->
+            val itemShape = RoundedCornerShape(8.dp)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(shape = RoundedCornerShape(8.dp), color = Color.White)
+                    .clip(itemShape)
+                    .clickable { onClickUser.invoke(data.id) }
+                    .background(shape = itemShape, color = Color.White)
                     .border(
                         border = BorderStroke(width = 1.dp, color = Primary),
-                        shape = RoundedCornerShape(8.dp)
+                        shape = itemShape
                     )
                     .padding(8.dp)
             ) {
@@ -86,7 +99,8 @@ private fun HomeContent(
                         .size(65.dp)
                         .clip(CircleShape),
                     model = data.avatarUrl,
-                    contentDescription = "avatar"
+                    contentDescription = "avatar",
+                    placeholder = painterResource(R.drawable.ic_launcher_background)
                 )
                 Spacer(modifier = Modifier.size(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
