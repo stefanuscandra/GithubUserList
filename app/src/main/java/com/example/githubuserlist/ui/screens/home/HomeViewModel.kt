@@ -15,11 +15,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: GithubUserRepository
+    private val repository: GithubUserRepository,
 ) : ViewModel() {
 
     private val _userData = MutableStateFlow<DataState<List<GithubUsersResponse>>>(DataState.Idle)
     val userData = _userData.asStateFlow()
+
+    private val _searchedUserData = MutableStateFlow<List<GithubUsersResponse>>(emptyList())
+    val searchedUserData = _searchedUserData.asStateFlow()
 
     init {
         getUserData()
@@ -39,5 +42,13 @@ class HomeViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    internal fun searchUser(query: String) {
+        val result = _userData.value.getStateData()?.let { user ->
+            user.filter { it.login.contains(query, ignoreCase = true) }
+        }
+
+        _searchedUserData.update { result.orEmpty() }
     }
 }
