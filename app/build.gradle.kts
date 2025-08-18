@@ -90,4 +90,14 @@ dependencies {
     implementation(libs.hilt)
     testImplementation(libs.hilt.testing)
     ksp(libs.hilt.compiler)
+
+    // testing
+    implementation(libs.test.coroutine)
+    testImplementation(libs.test.coroutine.jvm)
+    testImplementation(libs.test.mockk)
+    testImplementation(libs.test.mockwebserver)
+    testImplementation(libs.test.mockito.core)
+    testImplementation(libs.test.mockito.inline)
+    testImplementation(libs.test.junit)
+    androidTestImplementation(libs.test.junit.ext)
 }

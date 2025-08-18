@@ -17,7 +17,6 @@ composeNavigation = "2.7.7"
 composeLottie = "6.6.7"
 
 hilt = "2.51.1"
-hiltAndroidX = "1.2.0"
 loggingInterceptor = "4.9.1"
 moshi = "1.15.2"
 retrofit = "2.11.0"
@@ -65,8 +64,6 @@ compose-lottie = { group = "com.airbnb.android", name = "lottie-compose", versio
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltAndroidX" }
-hilt-work-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltAndroidX" }
 
 # network
 moshi = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
@@ -81,7 +78,6 @@ test-junit = { group = "junit", name = "junit", version.ref = "junit" }
 test-junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 test-coroutine = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutineTest" }
 test-coroutine-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test-jvm", version.ref = "coroutineTest" }
-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 test-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 test-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockWebServer" }
 test-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
@@ -90,8 +86,6 @@ test-mockito-inline = { group = "org.mockito", name = "mockito-inline", version.
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

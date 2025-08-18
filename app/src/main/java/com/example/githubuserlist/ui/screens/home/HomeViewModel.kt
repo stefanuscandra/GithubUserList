@@ -38,7 +38,7 @@ class HomeViewModel @Inject constructor(
                     result.onSuccess { successResult ->
                         _userData.update { DataState.Success(successResult) }
                     }.onFailure { errorResult ->
-                        DataState.Error(errorResult.message.orEmpty())
+                        _userData.update { DataState.Error(errorResult.message.orEmpty()) }
                     }
                 }
         }

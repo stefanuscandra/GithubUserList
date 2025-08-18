@@ -44,7 +44,7 @@ class UserDetailViewModel @Inject constructor(
                     result.onSuccess { successResult ->
                         _userDetail.update { DataState.Success(successResult) }
                     }.onFailure { errorResult ->
-                        DataState.Error(errorResult.message.orEmpty())
+                        _userDetail.update { DataState.Error(errorResult.message.orEmpty()) }
                     }
                 }
         }
@@ -54,14 +54,13 @@ class UserDetailViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getUserRepository(id)
                 .onStart {
-                    _userDetail.update { DataState.Loading }
+                    _userRepo.update { DataState.Loading }
                 }
                 .collect { result ->
                     result.onSuccess { successResult ->
                         _userRepo.update { DataState.Success(successResult) }
-                        println("userRepo ${_userRepo.value}")
                     }.onFailure { errorResult ->
-                        DataState.Error(errorResult.message.orEmpty())
+                        _userRepo.update { DataState.Error(errorResult.message.orEmpty()) }
                     }
                 }
         }
